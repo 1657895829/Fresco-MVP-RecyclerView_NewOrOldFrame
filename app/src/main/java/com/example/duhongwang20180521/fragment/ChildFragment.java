@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -89,6 +90,9 @@ public class ChildFragment extends Fragment {
                         if (adapter == null) {
                             LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
                             recyclerView.setLayoutManager(manager);
+
+                            //RecyclerView 添加分割线
+                            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
                             adapter = new ChildAdapter(getActivity(), list);
                             recyclerView.setAdapter(adapter);
                         } else {
