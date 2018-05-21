@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.example.duhongwang20180521.R;
 import com.example.duhongwang20180521.bean.NewsBean;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.List;
 import butterknife.BindView;
@@ -14,7 +16,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created   by    Dewey
- *  RecyclerView 展示数据
+ * RecyclerView 展示数据
  */
 public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.MyViewHolder> {
     private Context context;
@@ -34,9 +36,24 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        //设置参数数据
-        holder.draweeView.setImageURI(list.get(position).getProfile_image());
+        //设置参数数据,判断是否为动图
+        holder.ding.setText(list.get(position).getDing());
+        holder.cai.setText(list.get(position).getCai());
+        holder.bookmark.setText(list.get(position).getBookmark());
         holder.title.setText(list.get(position).getText());
+        holder.name.setText(list.get(position).getName());
+        holder.time.setText(list.get(position).getCreated_at());
+        holder.headImage.setImageURI(list.get(position).getProfile_image());
+
+        if (list.get(position).isIs_gif()){
+            PipelineDraweeController controller =  (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
+                    .setUri(list.get(position).getImage0())
+                    .setAutoPlayAnimations(true)     //自动播放gif动画
+                    .build();
+            holder.draweeView.setController(controller);
+        }else {
+            holder.draweeView.setImageURI(list.get(position).getImage0());
+        }
     }
 
     @Override
@@ -49,6 +66,19 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.MyViewHolder
         SimpleDraweeView draweeView;
         @BindView(R.id.title)
         TextView title;
+        @BindView(R.id.headImage)
+        SimpleDraweeView headImage;
+        @BindView(R.id.name)
+        TextView name;
+        @BindView(R.id.time)
+        TextView time;
+        @BindView(R.id.ding)
+        TextView ding;
+        @BindView(R.id.cai)
+        TextView cai;
+        @BindView(R.id.bookmark)
+        TextView bookmark;
+
         public MyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
