@@ -4,16 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.example.oldframe_week2demo.MainActivity">
+    android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_height="0dp"
+        android:layout_width="match_parent" >
+        <android.support.design.widget.TabLayout
+            android:layout_width="match_parent"
+            app:tabSelectedTextColor="#fdd683"
+            app:tabIndicatorHeight="1dp"
+            app:tabTextAppearance="@android:style/TextAppearance.Holo.Large"
+            app:tabIndicatorColor="#fdb728"
+            android:id="@+id/tabLayout"
+            app:tabGravity="fill"
+            android:layout_height="60dp"
+            app:tabTextColor="#4560b4" >
+        </android.support.design.widget.TabLayout>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_weight="9"
+        android:layout_height="0dp"
+        android:layout_width="match_parent" >
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v4.view.ViewPager>
+    </LinearLayout>
 </LinearLayout>
