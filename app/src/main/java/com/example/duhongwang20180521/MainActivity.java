@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         //设置使用ViewPager+Fragment显示新闻列表数据布局的适配器
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+
             //得到当前页的标题,,,也就是设置当前页面显示的标题是tabLayout对应的标题
             @Override
             public CharSequence getPageTitle(int position) {
