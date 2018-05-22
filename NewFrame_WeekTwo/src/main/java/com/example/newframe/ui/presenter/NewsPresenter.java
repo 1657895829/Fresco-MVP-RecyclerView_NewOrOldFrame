@@ -1,15 +1,15 @@
 package com.example.newframe.ui.presenter;
 
-import com.example.duhongwang20180521.bean.NewsBean;
-import com.example.duhongwang20180521.net.NewsApi;
-import com.example.duhongwang20180521.ui.base.BasePresenter;
-import com.example.duhongwang20180521.ui.contract.NewsContract;
-
+import com.example.newframe.bean.ImageBean;
+import com.example.newframe.bean.VideoBean;
+import com.example.newframe.net.NewsApi;
+import com.example.newframe.ui.base.BasePresenter;
+import com.example.newframe.ui.contract.NewsContract;
+import java.util.List;
 import javax.inject.Inject;
-
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -24,32 +24,47 @@ public class NewsPresenter extends BasePresenter<NewsContract.View> implements N
         this.newsApi = newsApi;
     }
 
-    //使用RxJava请求网络处理
+    //使用RxJava请求网络图片处理
     @Override
-    public void getData() {
-        newsApi.getNewsApi()
-                .observeOn(AndroidSchedulers.mainThread())
+    public void getNewsImage() {
+        newsApi.getImage()
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<NewsBean>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Function<ImageBean, List<ImageBean.DataBean>>() {
 
                     @Override
-                    public void onNext(NewsBean bean) {
-                        mView.newsData(bean);
+                    public List<ImageBean.DataBean> apply(ImageBean imgBean) throws Exception {
+                        return imgBean.getData();
                     }
+                }).subscribe(new Consumer<List<ImageBean.DataBean>>() {
+            @Override
+            public void accept(List<ImageBean.DataBean> dataBeans) throws Exception {
+                if (mView != null) {
+                    mView.imageData(dataBeans);
+                }
+            }
+        });
+    }
+
+    //使用RxJava请求网络视频处理
+    @Override
+    public void getNewsVideo() {
+        newsApi.getVideo()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Function<VideoBean, List<VideoBean.DataBean>>() {
 
                     @Override
-                    public void onError(Throwable e) {
-
+                    public List<VideoBean.DataBean> apply(VideoBean videoBean) throws Exception {
+                        return videoBean.getData();
                     }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+                }).subscribe(new Consumer<List<VideoBean.DataBean>>() {
+            @Override
+            public void accept(List<VideoBean.DataBean> dataBeans) throws Exception {
+                if (mView != null) {
+                    mView.videoData(dataBeans);
+                }
+            }
+        });
     }
 }

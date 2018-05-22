@@ -3,13 +3,11 @@ package com.example.newframe.ui.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-
-import com.example.duhongwang20180521.inter.IBase;
-
+import com.example.newframe.inter.IBase;
 import javax.inject.Inject;
 
 /**
- * 自定义 Activity抽象类 实现注入方法，实现view层特性
+ * 自定义 Activity抽象基类 实现注入方法，实现view层特性
  */
 
 public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends AppCompatActivity implements IBase,BaseContract.BaseView {
@@ -41,6 +39,8 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
     protected void onDestroy() {
         super.onDestroy();
         //解绑p层
-        mPresenter.detachView();
+        if (mPresenter != null){
+            mPresenter.detachView();
+        }
     }
 }

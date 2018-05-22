@@ -8,7 +8,9 @@ public class BasePresenter<T extends BaseContract.BaseView> implements BaseContr
     protected T mView;
     @Override
     public void attchView(T view) {
-        this.mView = view;
+        if (view != null){
+            this.mView = view;
+        }
     }
 
     @Override

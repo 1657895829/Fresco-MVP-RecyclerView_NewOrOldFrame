@@ -1,8 +1,8 @@
 package com.example.newframe.component;
 
-import com.example.duhongwang20180521.MainActivity;
-import com.example.duhongwang20180521.module.HttpModule;
-
+import com.example.newframe.module.HttpModule;
+import com.example.newframe.ui.fragment.ImageFragment;
+import com.example.newframe.ui.fragment.VideoFragment;
 import dagger.Component;
 
 /**
@@ -11,5 +11,7 @@ import dagger.Component;
  */
 @Component(modules = HttpModule.class)                // 作为桥梁，沟通调用者和依赖对象库
 public interface HttpComponent {
-    void inject(MainActivity mainActivity);           //注入对象到MainActivity中
+    void inject(ImageFragment imageFragment);           //注入对象到ImageFragment中
+
+    void inject(VideoFragment videoFragment);           //注入对象到VideoFragment中
 }

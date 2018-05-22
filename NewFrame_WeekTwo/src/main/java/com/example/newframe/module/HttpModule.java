@@ -1,14 +1,12 @@
 package com.example.newframe.module;
 
-import com.example.duhongwang20180521.net.Api;
-import com.example.duhongwang20180521.net.NewsApi;
-import com.example.duhongwang20180521.net.NewsApiService;
-
+import com.example.newframe.net.NewsApi;
+import com.example.newframe.net.NewsApiService;
 import java.util.concurrent.TimeUnit;
-
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -20,27 +18,27 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module      //提供依赖对象的实例
 public class HttpModule {
-
-    @Provides  // 关键字，标明该方法提供依赖对象
-    NewsApi providerShopApi(){
-
-        //1. 使用OkHttp请求网络，设置时间值
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+    @Provides
+    OkHttpClient.Builder provideOkHttpClientBuilder() {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        return new OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
                 .writeTimeout(20, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .build();
+                .connectTimeout(10, TimeUnit.SECONDS);
+    }
 
-        //2. 使用Retrofit传入okhttp请求参数体
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Api.BaseUrl)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+
+    @Provides  // 关键字，标明该方法提供依赖对象
+    NewsApi provideNewsApi(OkHttpClient.Builder builder) {
+        NewsApiService service = new Retrofit.Builder()
+                .baseUrl("https://www.apiopen.top/")
+                .client(builder.build())
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
-                .build();
-
-        //3. 最后调用请求接口，使用retrofit处理，返回处理结果
-        NewsApiService service = retrofit.create(NewsApiService.class);
-        return NewsApi.getNewsApi(service);
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
+                .create(NewsApiService.class);
+        return NewsApi.getDataApi(service);
     }
 }
