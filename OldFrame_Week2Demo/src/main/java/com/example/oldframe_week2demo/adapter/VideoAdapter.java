@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.example.oldframe_week2demo.R;
 import com.example.oldframe_week2demo.bean.NewsBean;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -47,9 +49,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
         holder.headImage.setImageURI(list.get(position).getProfile_image());
 
         //普通页面播放视频，显示视频标题
-        holder.videoPlayer.setUp(list.get(position).getVideouri(), JZVideoPlayer.SCREEN_WINDOW_NORMAL,list.get(position).getName());
+        holder.videoPlayer.setUp(list.get(position).getVideouri(),JZVideoPlayer.SCREEN_WINDOW_NORMAL);
         //为播放视频设置封面图
-        holder.videoPlayer.thumbImageView.setImageURI(Uri.parse(list.get(position).getCdn_img()));
+        Glide.with(context).load(list.get(position).getCdn_img()).into(holder.videoPlayer.thumbImageView);
     }
 
     @Override

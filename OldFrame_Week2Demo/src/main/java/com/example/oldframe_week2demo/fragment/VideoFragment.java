@@ -9,13 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.oldframe_week2demo.R;
-import com.example.oldframe_week2demo.adapter.ImageAdapter;
+import com.example.oldframe_week2demo.adapter.VideoAdapter;
 import com.example.oldframe_week2demo.base.BaseMvpFragment;
 import com.example.oldframe_week2demo.bean.NewsBean;
 import com.example.oldframe_week2demo.presenter.MyPresenter;
 import com.example.oldframe_week2demo.view.MyView;
-import java.util.ArrayList;
-import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -25,7 +23,6 @@ import butterknife.Unbinder;
  * 子 Fragment 显示视频数据
  */
 public class VideoFragment extends BaseMvpFragment<MyView,MyPresenter> implements MyView {
-    private List<NewsBean.DataBean> list = new ArrayList<>();
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     private Unbinder unbinder;
@@ -58,7 +55,7 @@ public class VideoFragment extends BaseMvpFragment<MyView,MyPresenter> implement
     public void onSuccess(NewsBean bean) {
         //设置布局管理器以及布局适配器,添加分割线
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        ImageAdapter adapter = new ImageAdapter(getActivity(), bean.getData());
+        VideoAdapter adapter = new VideoAdapter(getActivity(), bean.getData());
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);

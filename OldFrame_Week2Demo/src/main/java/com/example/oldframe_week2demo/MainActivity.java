@@ -51,11 +51,12 @@ public class MainActivity extends AppCompatActivity {
         //动态添加Tab选项卡
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
-        tabLayout.getTabAt(0).setText("图片");
-        tabLayout.getTabAt(0).setText("视频");
 
         //TabLyout要与ViewPager关联显示
         tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.getTabAt(0).setText("图片");
+        tabLayout.getTabAt(1).setText("视频");
     }
 
 }
